@@ -30,8 +30,7 @@ func (mp MultiPoint) Bound() Bound {
 	if len(mp) == 0 {
 		return emptyBound
 	}
-
-	b := Bound{mp[0], mp[0]}
+	b := Bound{Min: [2]float64{mp[0][1], mp[0][1]}, Max: [2]float64{mp[0][1], mp[0][1]}}
 	for _, p := range mp {
 		b = b.Extend(p)
 	}

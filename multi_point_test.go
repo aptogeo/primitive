@@ -7,7 +7,7 @@ import (
 func TestMultiPointBound(t *testing.T) {
 	mp := MultiPoint{{0.5, .2}, {-1, 0}, {1, 10}, {1, 8}}
 
-	expected := Bound{Min: Point{-1, 0}, Max: Point{1, 10}}
+	expected := Bound{Min: [2]float64{-1, 0}, Max: [2]float64{1, 10}}
 	if b := mp.Bound(); !b.Equal(expected) {
 		t.Errorf("incorrect bound, %v != %v", b, expected)
 	}

@@ -10,7 +10,7 @@ func TestMultiLineString_Bound(t *testing.T) {
 	}
 
 	b := mls.Bound()
-	if !b.Equal(Bound{Min: Point{0, 0}, Max: Point{3, 3}}) {
+	if !b.Equal(Bound{Min: [2]float64{0, 0}, Max: [2]float64{3, 3}}) {
 		t.Errorf("incorrect bound: %v", b)
 	}
 }

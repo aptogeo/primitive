@@ -4,14 +4,14 @@ import (
 	"math"
 )
 
-var emptyBound = Bound{Min: Point{1, 1}, Max: Point{-1, -1}}
+var emptyBound = Bound{Min: [2]float64{1, 1}, Max: [2]float64{-1, -1}}
 
 // A Bound represents a closed box or rectangle.
 // To create a bound with two points you can do something like:
 //
 //	orb.MultiPoint{p1, p2}.Bound()
 type Bound struct {
-	Min, Max Point
+	Min, Max [2]float64
 }
 
 // GeoJSONType returns the GeoJSON type for the object.
@@ -33,11 +33,11 @@ func (b Bound) ToPolygon() Polygon {
 // by the boundary of the box.
 func (b Bound) ToRing() Ring {
 	return Ring{
-		b.Min,
+		Point{b.Min[0], b.Min[1]},
 		Point{b.Max[0], b.Min[1]},
-		b.Max,
+		Point{b.Max[0], b.Max[1]},
 		Point{b.Min[0], b.Max[1]},
-		b.Min,
+		Point{b.Min[0], b.Min[1]},
 	}
 }
 
@@ -49,11 +49,11 @@ func (b Bound) Extend(point Point) Bound {
 	}
 
 	return Bound{
-		Min: Point{
+		Min: [2]float64{
 			math.Min(b.Min[0], point[0]),
 			math.Min(b.Min[1], point[1]),
 		},
-		Max: Point{
+		Max: [2]float64{
 			math.Max(b.Max[0], point[0]),
 			math.Max(b.Max[1], point[1]),
 		},
@@ -66,8 +66,8 @@ func (b Bound) Union(other Bound) Bound {
 		return b
 	}
 
-	b = b.Extend(other.Min)
-	b = b.Extend(other.Max)
+	b = b.Extend(Point{other.Min[0], other.Min[1]})
+	b = b.Extend(Point{other.Max[0], other.Max[1]})
 	b = b.Extend(other.LeftTop())
 	b = b.Extend(other.RightBottom())
 
@@ -159,7 +159,7 @@ func (b Bound) IsEmpty() bool {
 
 // IsZero return true if the bound just includes just null island.
 func (b Bound) IsZero() bool {
-	return b.Max == Point{} && b.Min == Point{}
+	return b.Max == [2]float64{0, 0} && b.Min == [2]float64{0, 0}
 }
 
 // Bound returns the the same bound.

@@ -58,12 +58,12 @@ func TestRound(t *testing.T) {
 		})
 
 		t.Run(tc.name+" - bound", func(t *testing.T) {
-			r := Round(Bound{Min: tc.input, Max: tc.input}, tc.factor).(Bound)
-			if !r.Min.Equal(tc.result) {
+			r := Round(Bound{Min: [2]float64{tc.input[0], tc.input[1]}, Max: [2]float64{tc.input[0], tc.input[1]}}, tc.factor).(Bound)
+			if r.Min != [2]float64{tc.result[0], tc.result[1]} {
 				t.Errorf("bound min incorrect: %v != %v", r.Min, tc.result)
 			}
 
-			if !r.Max.Equal(tc.result) {
+			if r.Max != [2]float64{tc.result[0], tc.result[1]} {
 				t.Errorf("bound max incorrect: %v != %v", r.Max, tc.result)
 			}
 		})

@@ -17,7 +17,7 @@ func (r Ring) Dimensions() int {
 // ie. 4+ points and the first and last points match.
 // NOTE: this will not check for self-intersection.
 func (r Ring) Closed() bool {
-	return (len(r) >= 4) && (r[0] == r[len(r)-1])
+	return (len(r) >= 4) && (r[0].Equal(r[len(r)-1]))
 }
 
 // Reverse changes the direction of the ring.
